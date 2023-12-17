@@ -358,7 +358,7 @@ class gomoku_game:
 		point =0 
 		for i in range(1,5):
 			if self.check_pos(x + i*v1, i*v2)==0 or grid[x + i * v1][y + i * v2] == -grid[x][y]:
-				block = i
+				block = 1
 		if block ==0:
 			for i in range(5):
 				point = point + abs(grid[x + i * v1][y + i * v2])
@@ -368,15 +368,15 @@ class gomoku_game:
 			if block !=0 : # ko đủ 5 ô tiếp
 				return 0
 			
-			return pow(5,c)*3 + pow(5,point)
+			return pow(10,c)*6 + pow(8,point)
 
 		else: # ko bị chặn trước
 			
 
-			if block ==0: # ko bị chặn 2 đầu
-				return pow(5, c)*9 + pow(10,point)*3
+			if block == 0: # ko bị chặn 2 đầu
+				return pow(10, c)*36 + pow(8,point)
 			else: # bị chặn sau
-				return pow(5, c)*3
+				return pow(10, c)*36
 
 
 game()
