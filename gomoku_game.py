@@ -360,7 +360,9 @@ class gomoku_game:
 		if self.check_pos(x + c*v1, y + c*v2)==0 or grid[x + c*v1][y + c*v2] !=0:
 			if self.check_pos(x-v1,y-v2) == 0 or grid[x-v1][y-v2] != 0:
 				return 0
-		else:
+		
+
+		if self.check_pos(x + c*v1, y + c*v2)==1 and grid[x + c*v1][y + c*v2] ==0:
 			point = point*5
 
 		if self.check_pos(x-v1,y-v2) == 1 and grid[x-v1][y-v2] == 0:
