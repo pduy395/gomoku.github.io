@@ -1,0 +1,43 @@
+
+
+	def heuristic(self):
+		# estimate of the utility fuction
+		h = 0
+		for i in range(self.number):
+			for j in range(self.number):
+				if(grid[i][j]!=0):
+					h = h + self.cal_point(i,j,1,0)*grid[i][j]
+					h = h + self.cal_point(i,j,0,1)*grid[i][j]
+					h = h + self.cal_point(i,j,1,1)*grid[i][j]
+					h = h + self.cal_point(i,j,1,-1)*grid[i][j]
+		return h
+	
+	def cal_point(self,x,y,v1,v2):
+		if self.check_pos(x-v1,y-v2) == 1 and grid[x-v1][y-v2] == grid[x][y]:
+			return 0
+		
+		c = 1
+		while self.check_pos(x + c*v1, y + c*v2)==1 and grid[x + c*v1][y + c*v2]==grid[x][y]:
+			c = c + 1
+
+		if c <= 2:
+			return pow(5,c)
+		
+		point = pow(10,c)
+
+		if self.check_pos(x + c*v1, y + c*v2)==0 or grid[x + c*v1][y + c*v2] !=0:
+			if self.check_pos(x-v1,y-v2) == 0 or grid[x-v1][y-v2] != 0:
+				return 0
+		
+
+		if self.check_pos(x + c*v1, y + c*v2)==1 and grid[x + c*v1][y + c*v2] ==0:
+			point = point*5
+
+		if self.check_pos(x-v1,y-v2) == 1 and grid[x-v1][y-v2] == 0:
+			point = point*5
+		
+
+
+		return point
+
+

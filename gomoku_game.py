@@ -348,29 +348,35 @@ class gomoku_game:
 		if self.check_pos(x-v1,y-v2) == 1 and grid[x-v1][y-v2] == grid[x][y]:
 			return 0
 		
-		c = 1
+
+		live =[0,0,0,0,0]
+		dead =[0,0,0,0,0]
+		c = 1 # độ dài dây
 		while self.check_pos(x + c*v1, y + c*v2)==1 and grid[x + c*v1][y + c*v2]==grid[x][y]:
 			c = c + 1
+		block =0 # xem có đủ 5 ô tiếp ko
+		point =0 
+		for i in range(1,5):
+			if self.check_pos(x + i*v1, i*v2)==0 or grid[x + i * v1][y + i * v2] == -grid[x][y]:
+				block = i
+		if block ==0:
+			for i in range(5):
+				point = point + abs(grid[x + i * v1][y + i * v2])
+			
 
-		if c <= 2:
-			return pow(5,c)
-		
-		point = pow(10,c)
-
-		if self.check_pos(x + c*v1, y + c*v2)==0 or grid[x + c*v1][y + c*v2] !=0:
-			if self.check_pos(x-v1,y-v2) == 0 or grid[x-v1][y-v2] != 0:
+		if self.check_pos(x - v1, y - v2)==0 or grid[x - v1][y -v2] == -grid[x][y]: # bị chặn trước
+			if block !=0 : # ko đủ 5 ô tiếp
 				return 0
-		
+			
+			return pow(5,c)*3 + pow(5,point)
 
-		if self.check_pos(x + c*v1, y + c*v2)==1 and grid[x + c*v1][y + c*v2] ==0:
-			point = point*5
+		else: # ko bị chặn trước
+			
 
-		if self.check_pos(x-v1,y-v2) == 1 and grid[x-v1][y-v2] == 0:
-			point = point*5
-		
-
-
-		return point
+			if block ==0: # ko bị chặn 2 đầu
+				return pow(5, c)*9 + pow(10,point)*3
+			else: # bị chặn sau
+				return pow(5, c)*3
 
 
 game()
