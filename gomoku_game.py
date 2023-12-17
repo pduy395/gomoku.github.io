@@ -82,7 +82,7 @@ class gomoku_game:
 			for column in range(self.number): 
 				grid[row].append(0)
 		self.last_step=(0,0)
-		self.DEPTH = 1
+		self.DEPTH = 2
 		self.WIDTH = 30
 		self.MARGIN = 2
 		self.size = self.number*(self.MARGIN + self.WIDTH) + self.MARGIN 
@@ -271,7 +271,7 @@ class gomoku_game:
 		for (i,j) in loop_aray:
 			grid[i][j]= 1
 			self.add_goodposition(i,j)
-			v0 = self.min_value(-math.inf,math.inf,0)
+			v0 = self.min_value(-math.inf,math.inf,1)
 			grid[i][j]=0
 			self.remove_goodposition(i,j)
 			if v <= v0:
@@ -288,7 +288,7 @@ class gomoku_game:
 		elif status == 0:
 			return 0
 
-		if deep == self.DEPTH:
+		if deep >= self.DEPTH:
 			return self.heuristic()
 
 		v = -math.inf
@@ -315,7 +315,7 @@ class gomoku_game:
 		elif status == 0:
 			return 0
 
-		if deep == self.DEPTH:
+		if deep >= self.DEPTH:
 			return self.heuristic()
 
 		v = math.inf
@@ -348,30 +348,27 @@ class gomoku_game:
 		if self.check_pos(x-v1,y-v2) == 1 and grid[x-v1][y-v2] == grid[x][y]:
 			return 0
 		
-		point = 1
-		while self.check_pos(x + point*v1, y + point*v2)==1 and grid[x + point*v1][y + point*v2]==grid[x][y]:
-			point = point + 1
+		c = 1
+		while self.check_pos(x + c*v1, y + c*v2)==1 and grid[x + c*v1][y + c*v2]==grid[x][y]:
+			c = c + 1
 
+		if c <= 2:
+			return pow(5,c)
+		
+		point = pow(10,c)
 
-		if self.check_pos(x + point*v1, y + point*v2)==0 or grid[x + point*v1][y + point*v2] !=0:
+		if self.check_pos(x + c*v1, y + c*v2)==0 or grid[x + c*v1][y + c*v2] !=0:
 			if self.check_pos(x-v1,y-v2) == 0 or grid[x-v1][y-v2] != 0:
 				return 0
 		else:
-			point = point + 1
+			point = point*5
 
 		if self.check_pos(x-v1,y-v2) == 1 and grid[x-v1][y-v2] == 0:
-			point = point + 1
+			point = point*5
 		
 
-		if point==6:
-			return 10000
-		if point==5:
-			return 300
-		if point==4:
-			return 30
 
 		return point
 
 
 game()
-
