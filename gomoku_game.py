@@ -349,15 +349,14 @@ class gomoku_game:
 			return 0
 		
 
-		live =[0,0,0,0,0]
-		dead =[0,0,0,0,0]
+
 		c = 1 # độ dài dây
 		while self.check_pos(x + c*v1, y + c*v2)==1 and grid[x + c*v1][y + c*v2]==grid[x][y]:
 			c = c + 1
 		block =0 # xem có đủ 5 ô tiếp ko
 		point =0 
 		for i in range(1,5):
-			if self.check_pos(x + i*v1, i*v2)==0 or grid[x + i * v1][y + i * v2] == -grid[x][y]:
+			if self.check_pos(x + i*v1,y+ i*v2)==0 or grid[x + i * v1][y + i * v2] == -grid[x][y]:
 				block = 1
 		if block ==0:
 			for i in range(5):
